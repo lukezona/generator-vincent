@@ -1,11 +1,13 @@
 {
-  "name": "generator-keystone",
-  "version": "0.5.1",
-  "description": "A KeystoneJS Project Generator for Yeoman",
+  "name": "generator-vincent",
+  "version": "0.0.1",
+  "description": "A VincentJS Project Generator for Yeoman (based on KeystoneJS)",
   "keywords": [
     "yeoman-generator",
     "keystonejs",
     "keystone",
+    "vincentjs",
+    "vincent",
     "express",
     "cms",
     "mongoose",

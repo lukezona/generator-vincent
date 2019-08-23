@@ -24,7 +24,7 @@ var KeystoneGenerator = module.exports = function KeystoneGenerator (args, optio
 	yeoman.generators.Base.apply(this, arguments);
 
 	// Welcome
-	console.log('\nWelcome to KeystoneJS.\n');
+	console.log('\nWelcome to VincentJS.\n');
 
 	// This callback is fired when the generator has completed,
 	// and includes instructions on what to do next.
@@ -33,9 +33,9 @@ var KeystoneGenerator = module.exports = function KeystoneGenerator (args, optio
 		console.log(
 			'\n------------------------------------------------'
 			+ '\n'
-			+ '\nYour KeystoneJS project is ready to go!'
+			+ '\nYour VincentJS project is ready to go!'
 			+ '\n'
-			+ '\nFor help getting started, visit https://keystonejs.com/getting-started/'
+			+ '\nFor help getting started, visit https://vincentJS.com/getting-started/'
 
 			+ ((this.includeEmail && !this.mailgunConfigured)
 				? '\n'
@@ -83,7 +83,7 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 	if (this.auto) {
 		this._projectName = 'Keystone Starter';
 		this.projectName = 'keystone-starter';
-		this.adminLogin = 'user@keystonejs.com';
+		this.adminLogin = 'user@vincentjs.com';
 		this.adminPassword = 'admin';
 		this.viewEngine = 'pug';
 		this.preprocessor = 'sass';
@@ -138,7 +138,7 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 			}, {
 				name: 'adminLogin',
 				message: 'Enter an email address for the first Admin user:',
-				default: 'user@keystonejs.com',
+				default: 'user@vincentjs.com',
 			}, {
 				name: 'adminPassword',
 				message: 'Enter a password for the first Admin user:'
@@ -237,8 +237,8 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 				prompts.config.push({
 					name: 'cloudinaryURL',
 					message: '------------------------------------------------'
-						+ '\n    KeystoneJS integrates with Cloudinary for image upload, resizing and'
-						+ '\n    hosting. See https://keystonejs.com/api/field/cloudinaryimage for more info.'
+						+ '\n    VincentJS integrates with Cloudinary for image upload, resizing and'
+						+ '\n    hosting. See https://vincentjs.com/api/field/cloudinaryimage for more info.'
 						+ '\n    '
 						+ '\n    CloudinaryImage fields are used by the ' + blog_gallery + '.'
 						+ '\n    '
