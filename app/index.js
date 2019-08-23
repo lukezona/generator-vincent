@@ -1,13 +1,13 @@
-var colors = require('colors'); // eslint-disable-line
-var util = require('util');
-var path = require('path');
-var _ = require('lodash');
-var utils = require('keystone-utils');
-var crypto = require('crypto');
-var yeoman = require('yeoman-generator');
+const colors = require('colors'); // eslint-disable-line
+const util = require('util');
+const path = require('path');
+const _ = require('lodash');
+const utils = require('keystone-utils');
+const crypto = require('crypto');
+const yeoman = require('yeoman-generator');
 require('./includesPolyfill');
 
-var KeystoneGenerator = module.exports = function KeystoneGenerator (args, options, config) {
+const KeystoneGenerator = module.exports = function KeystoneGenerator (args, options, config) {
 
 	// Set utils for use in templates
 	this.utils = utils;
@@ -28,8 +28,8 @@ var KeystoneGenerator = module.exports = function KeystoneGenerator (args, optio
 
 	// This callback is fired when the generator has completed,
 	// and includes instructions on what to do next.
-	var done = _.bind(function done () {
-		var cmd = (this.newDirectory ? '"cd ' + utils.slug(this.projectName) + '" then ' : '') + '"' + 'node keystone' + '"';
+	const done = _.bind(function done () {
+		const cmd = (this.newDirectory ? '"cd ' + utils.slug(this.projectName) + '" then ' : '') + '"' + 'node keystone' + '"';
 		console.log(
 			'\n------------------------------------------------'
 			+ '\n'
@@ -78,7 +78,7 @@ util.inherits(KeystoneGenerator, yeoman.generators.Base);
 
 KeystoneGenerator.prototype.prompts = function prompts () {
 
-	var cb = this.async();
+	const cb = this.async();
 
 	if (this.auto) {
 		this._projectName = 'Keystone Starter';
@@ -101,21 +101,13 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 		return cb();
 	}
 
-	var prompts = {
+	const prompts = {
 
 		project: [
 			{
 				name: 'projectName',
 				message: 'What is the name of your project?',
 				default: 'My Site',
-			}, {
-				name: 'viewEngine',
-				message: 'Would you like to use Pug, Nunjucks, Twig or Handlebars for templates? ' + (('[pug | nunjucks | twig | hbs]').grey),
-				default: 'pug',
-			}, {
-				name: 'preprocessor',
-				message: 'Which CSS pre-processor would you like? ' + (('[less | sass | stylus]').grey),
-				default: 'less',
 			}, {
 				type: 'confirm',
 				name: 'includeBlog',
@@ -125,16 +117,7 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 				type: 'confirm',
 				name: 'includeGallery',
 				message: 'Would you like to include an Image Gallery?',
-				default: true,
-			}, {
-				type: 'confirm',
-				name: 'includeEnquiries',
-				message: 'Would you like to include a Contact Form?',
-				default: true,
-			}, {
-				name: 'userModel',
-				message: 'What would you like to call the User model?',
-				default: 'User',
+				default: false,
 			}, {
 				name: 'adminLogin',
 				message: 'Enter an email address for the first Admin user:',
@@ -149,15 +132,7 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 				name: 'newDirectory',
 				message: 'Would you like to create a new directory for your project?',
 				default: true,
-			}, {
-				type: 'confirm',
-				name: 'includeEmail',
-				message: '------------------------------------------------'
-					+ '\n    Would you like to include Email configuration in your project?'
-					+ '\n    We will set you up with an email template for enquiries as well'
-					+ '\n    as optional mailgun integration',
-				default: true,
-			},
+			}
 		],
 
 		config: [],
@@ -175,30 +150,17 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 		// Escape other inputs
 		this.adminLogin = utils.escapeString(this.adminLogin);
 		this.adminPassword = utils.escapeString(this.adminPassword);
-
-		// Clean the viewEngine selection
-		if (_.includes(['handlebars', 'hbs', 'h'], this.viewEngine.toLowerCase().trim())) {
-			this.viewEngine = 'hbs';
-		} else if (_.includes(['twig', 't'], this.viewEngine.toLowerCase().trim())) {
-			this.viewEngine = 'twig';
-		} else if (_.includes(['nunjucks', 'nun', 'n'], this.viewEngine.toLowerCase().trim())) {
-			this.viewEngine = 'nunjucks';
-		} else {
-			this.viewEngine = 'pug';
-		}
-
-		// Clean the preprocessor
-		if (_.includes(['sass', 'sa'], this.preprocessor.toLowerCase().trim())) {
-			this.preprocessor = 'sass';
-		} else if (_.includes(['less', 'le'], this.preprocessor.toLowerCase().trim())) {
-			this.preprocessor = 'less';
-		} else {
-			this.preprocessor = 'stylus';
-		}
+		
+		this.viewEngine = 'pug';
+		this.preprocessor = 'sass';
 
 		// Clean the userModel name
-		this.userModel = utils.camelcase(this.userModel, false);
+		this.userModel = utils.camelcase(this.userModel || 'User', false);
 		this.userModelPath = utils.keyToPath(this.userModel, true);
+		
+		// Forcing the email and enquiries
+		this.includeEmail = true;
+		this.includeEnquiries = true;
 
 		// Create the directory if required
 		if (this.newDirectory) {
@@ -223,31 +185,19 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 					+ '\n    mailgun domain:',
 				});
 			}
-
-			if (this.includeBlog || this.includeGallery) {
-
-				var blog_gallery = 'blog and gallery templates';
-
-				if (!this.includeBlog) {
-					blog_gallery = 'gallery template';
-				} else if (!this.includeGallery) {
-					blog_gallery = 'blog template';
-				}
-
-				prompts.config.push({
-					name: 'cloudinaryURL',
-					message: '------------------------------------------------'
-						+ '\n    VincentJS integrates with Cloudinary for image upload, resizing and'
-						+ '\n    hosting. See https://vincentjs.com/api/field/cloudinaryimage for more info.'
-						+ '\n    '
-						+ '\n    CloudinaryImage fields are used by the ' + blog_gallery + '.'
-						+ '\n    '
-						+ '\n    You can skip this for now (we\'ll include demo account details)'
-						+ '\n    '
-						+ '\n    Please enter your Cloudinary URL:',
-				});
-
-			}
+			
+			prompts.config.push({
+				name: 'cloudinaryURL',
+				message: '------------------------------------------------'
+				+ '\n    VincentJS uses KeystoneJS that integrates with Cloudinary for image upload, resizing and'
+				+ '\n    hosting. See https://keystonejs.com/api/field/cloudinaryimage for more info.'
+				+ '\n    '
+				+ '\n    CloudinaryImage fields are used by the whole project for every image.'
+				+ '\n    '
+				+ '\n    You can skip this for now (we\'ll include demo account details)'
+				+ '\n    '
+				+ '\n    Please enter your Cloudinary URL:',
+			});
 
 		}
 
@@ -280,7 +230,7 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 
 KeystoneGenerator.prototype.guideComments = function () {
 
-	var cb = this.async();
+	const cb = this.async();
 	if (this.auto) {
 		return cb();
 	}
@@ -327,7 +277,7 @@ KeystoneGenerator.prototype.project = function project () {
 
 KeystoneGenerator.prototype.models = function models () {
 
-	var modelFiles = [];
+	let modelFiles = [];
 
 	if (this.includeBlog) {
 		modelFiles.push('Post');
@@ -383,91 +333,28 @@ KeystoneGenerator.prototype.routes = function routes () {
 
 KeystoneGenerator.prototype.templates = function templates () {
 
-	if (this.viewEngine === 'hbs') {
+	this.mkdir('templates');
+	this.mkdir('templates/views');
 
-		// Copy Handlebars Templates
+	this.directory('templates/default-' + this.viewEngine + '/layouts', 'templates/layouts');
+	this.directory('templates/default-' + this.viewEngine + '/mixins', 'templates/mixins');
+	this.directory('templates/default-' + this.viewEngine + '/views/errors', 'templates/views/errors');
 
-		this.mkdir('templates');
-		this.mkdir('templates/views');
+	this.template('templates/default-' + this.viewEngine + '/views/index.' + this.viewEngine, 'templates/views/index.' + this.viewEngine);
 
-		this.directory('templates/default-hbs/views/layouts', 'templates/views/layouts');
-		this.directory('templates/default-hbs/views/helpers', 'templates/views/helpers');
-		this.directory('templates/default-hbs/views/partials', 'templates/views/partials');
+	if (this.includeBlog) {
+		this.copy('templates/default-' + this.viewEngine + '/views/blog.' + this.viewEngine, 'templates/views/blog.' + this.viewEngine);
+		this.copy('templates/default-' + this.viewEngine + '/views/post.' + this.viewEngine, 'templates/views/post.' + this.viewEngine);
+	}
 
-		this.template('templates/default-hbs/views/index.hbs', 'templates/views/index.hbs');
+	if (this.includeGallery) {
+		this.copy('templates/default-' + this.viewEngine + '/views/gallery.' + this.viewEngine, 'templates/views/gallery.' + this.viewEngine);
+	}
 
-		if (this.includeBlog) {
-			this.copy('templates/default-hbs/views/blog.hbs', 'templates/views/blog.hbs');
-			this.copy('templates/default-hbs/views/post.hbs', 'templates/views/post.hbs');
-		}
-
-		if (this.includeGallery) {
-			this.copy('templates/default-hbs/views/gallery.hbs', 'templates/views/gallery.hbs');
-		}
-
-		if (this.includeEnquiries) {
-			this.copy('templates/default-hbs/views/contact.hbs', 'templates/views/contact.hbs');
-			if (this.includeEmail) {
-				this.copy('templates/default-hbs/emails/enquiry-notification.hbs', 'templates/emails/enquiry-notification.hbs');
-			}
-		}
-
-	} else if (this.viewEngine === 'nunjucks') {
-
-		// Copy Nunjucks Templates
-
-		this.mkdir('templates');
-		this.mkdir('templates/views');
-
-		this.directory('templates/default-' + this.viewEngine + '/views/layouts', 'templates/views/layouts');
-		this.directory('templates/default-' + this.viewEngine + '/views/mixins', 'templates/views/mixins');
-		this.directory('templates/default-' + this.viewEngine + '/views/errors', 'templates/views/errors');
-
-		this.template('templates/default-' + this.viewEngine + '/views/index.html', 'templates/views/index.html');
-
-		if (this.includeBlog) {
-			this.copy('templates/default-' + this.viewEngine + '/views/blog.html', 'templates/views/blog.html');
-			this.copy('templates/default-' + this.viewEngine + '/views/post.html', 'templates/views/post.html');
-		}
-
-		if (this.includeGallery) {
-			this.copy('templates/default-' + this.viewEngine + '/views/gallery.html', 'templates/views/gallery.html');
-		}
-
-		if (this.includeEnquiries) {
-			this.copy('templates/default-' + this.viewEngine + '/views/contact.html', 'templates/views/contact.html');
-			if (this.includeEmail) {
-				this.directory('templates/default-' + this.viewEngine + '/emails', 'templates/emails');
-			}
-		}
-
-	} else {
-
-		// Copy Pug/Twig Templates
-
-		this.mkdir('templates');
-		this.mkdir('templates/views');
-
-		this.directory('templates/default-' + this.viewEngine + '/layouts', 'templates/layouts');
-		this.directory('templates/default-' + this.viewEngine + '/mixins', 'templates/mixins');
-		this.directory('templates/default-' + this.viewEngine + '/views/errors', 'templates/views/errors');
-
-		this.template('templates/default-' + this.viewEngine + '/views/index.' + this.viewEngine, 'templates/views/index.' + this.viewEngine);
-
-		if (this.includeBlog) {
-			this.copy('templates/default-' + this.viewEngine + '/views/blog.' + this.viewEngine, 'templates/views/blog.' + this.viewEngine);
-			this.copy('templates/default-' + this.viewEngine + '/views/post.' + this.viewEngine, 'templates/views/post.' + this.viewEngine);
-		}
-
-		if (this.includeGallery) {
-			this.copy('templates/default-' + this.viewEngine + '/views/gallery.' + this.viewEngine, 'templates/views/gallery.' + this.viewEngine);
-		}
-
-		if (this.includeEnquiries) {
-			this.copy('templates/default-' + this.viewEngine + '/views/contact.' + this.viewEngine, 'templates/views/contact.' + this.viewEngine);
-			if (this.includeEmail) {
-				this.copy('templates/default-' + this.viewEngine + '/emails/enquiry-notification.' + this.viewEngine, 'templates/emails/enquiry-notification.' + this.viewEngine);
-			}
+	if (this.includeEnquiries) {
+		this.copy('templates/default-' + this.viewEngine + '/views/contact.' + this.viewEngine, 'templates/views/contact.' + this.viewEngine);
+		if (this.includeEmail) {
+			this.copy('templates/default-' + this.viewEngine + '/emails/enquiry-notification.' + this.viewEngine, 'templates/emails/enquiry-notification.' + this.viewEngine);
 		}
 	}
 
@@ -484,15 +371,6 @@ KeystoneGenerator.prototype.files = function files () {
 	this.directory('public/images');
 	this.directory('public/js');
 	this.copy('public/favicon.ico');
-
-	if (this.preprocessor === 'sass') {
-		this.directory('public/fonts', 'public/fonts/bootstrap');
-		this.directory('public/styles-sass', 'public/styles');
-	} else if (this.preprocessor === 'less') {
-		this.directory('public/fonts');
-		this.directory('public/styles-less', 'public/styles');
-	} else {
-		this.directory('public/fonts');
-		this.directory('public/styles-stylus', 'public/styles');
-	}
+	this.directory('public/fonts', 'public/fonts/bootstrap');
+	this.directory('public/styles-sass', 'public/styles');
 };
