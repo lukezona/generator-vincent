@@ -29,13 +29,17 @@ const KeystoneGenerator = module.exports = function KeystoneGenerator (args, opt
 	// This callback is fired when the generator has completed,
 	// and includes instructions on what to do next.
 	const done = _.bind(function done () {
-		const cmd = (this.newDirectory ? '"cd ' + utils.slug(this.projectName) + '" then ' : '') + '"' + 'node keystone' + '"';
+		
+		// Copy Util.js file from CodyHouse Framework to the public folder
+		//this.copy(path.join(__dirname, '../node_modules/codyhouse-framework/main/assets/js/util.js'), 'public/js/util.js');
+		
+		const cmd = (this.newDirectory ? '"cd ' + utils.slug(this.projectName) + '" then ' : '') + '"' + 'npm start' + '"';
 		console.log(
 			'\n------------------------------------------------'
 			+ '\n'
 			+ '\nYour VincentJS project is ready to go!'
 			+ '\n'
-			+ '\nFor help getting started, visit https://vincentJS.com/getting-started/'
+			+ '\nFor help getting started, visit https://vincentjs.com/getting-started/'
 
 			+ ((this.includeEmail && !this.mailgunConfigured)
 				? '\n'
@@ -81,8 +85,8 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 	const cb = this.async();
 
 	if (this.auto) {
-		this._projectName = 'Keystone Starter';
-		this.projectName = 'keystone-starter';
+		this._projectName = 'Vincent Starter';
+		this.projectName = 'vincent-starter';
 		this.adminLogin = 'user@vincentjs.com';
 		this.adminPassword = 'admin';
 		this.viewEngine = 'pug';
@@ -95,7 +99,7 @@ KeystoneGenerator.prototype.prompts = function prompts () {
 		this.includeGallery = true;
 		this.usingDemoCloudinaryAccount = true;
 		this.cloudinaryURL = 'cloudinary://333779167276662:_8jbSi9FB3sWYrfimcl8VKh34rI@keystone-demo';
-		this.includeGuideComments = true;
+		this.includeGuideComments = false;
 		this.includeEnquiries = true;
 		this.newDirectory = true;
 		return cb();
@@ -268,25 +272,29 @@ KeystoneGenerator.prototype.project = function project () {
 	this.template('_eslintrc', '.eslintrc');
 	this.template('_eslintignore', '.eslintignore');
 	this.template('_keystone.js', 'keystone.js');
+	
+	this.directory('lib');
 
 	this.copy('editorconfig', '.editorconfig');
 	this.copy('gitignore', '.gitignore');
 	this.copy('Procfile');
+	this.copy('gulpfile.js');
 
 };
 
 KeystoneGenerator.prototype.models = function models () {
 
 	let modelFiles = [];
+	
+	modelFiles.push('Language');
+	modelFiles.push('cms/Image');
 
-	if (this.includeBlog) {
-		modelFiles.push('Post');
-		modelFiles.push('PostCategory');
-	}
-
-	if (this.includeGallery) {
-		modelFiles.push('Gallery');
-	}
+	// TODO: Add blog models
+	/*if (this.includeBlog) {
+		modelFiles.push('blog/BlogPost');
+		modelFiles.push('blog/BlogCategory');
+		modelFiles.push('blog/BlogConfiguration');
+	}*/
 
 	if (this.includeEnquiries) {
 		modelFiles.push('Enquiry');
@@ -304,7 +312,8 @@ KeystoneGenerator.prototype.models = function models () {
 
 KeystoneGenerator.prototype.routes = function routes () {
 
-	this.mkdir('routes');
+	this.directory('routes/api');
+	// this.mkdir('routes');
 	this.mkdir('routes/views');
 
 	this.template('routes/_index.js', 'routes/index.js');
@@ -336,6 +345,8 @@ KeystoneGenerator.prototype.templates = function templates () {
 	this.mkdir('templates');
 	this.mkdir('templates/views');
 
+	this.directory('templates/default-' + this.viewEngine + '/codyhouse-components', 'templates/codyhouse-components');
+	
 	this.directory('templates/default-' + this.viewEngine + '/layouts', 'templates/layouts');
 	this.directory('templates/default-' + this.viewEngine + '/mixins', 'templates/mixins');
 	this.directory('templates/default-' + this.viewEngine + '/views/errors', 'templates/views/errors');
@@ -367,7 +378,6 @@ KeystoneGenerator.prototype.updates = function routes () {
 };
 
 KeystoneGenerator.prototype.files = function files () {
-
 	this.directory('public/images');
 	this.directory('public/js');
 	this.copy('public/favicon.ico');

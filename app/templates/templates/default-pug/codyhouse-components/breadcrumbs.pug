@@ -1,0 +1,22 @@
+mixin breadcrums(items)
+	//	-----------
+			Breadcrumbs
+			-----------
+
+			Documentation:
+				https://codyhouse.co/ds/components/app/breadcrumbs
+
+			Description:
+				Creates a breadcrumb for easy navigation
+
+			Arguments:
+				- items: [item: { href: string, label: string }] - array of objects with href link and label for the previous pages
+
+	nav.breadcrumbs(aria-label="Breadcrumbs")
+		ol.breadcrumbs__list
+			each item, i in items
+				li.breadcrumbs__item(aria-current=(i === (items.length-1) ? 'page' : null))
+					a(href=item.href)!= item.label
+					if i !== (items.length-2)
+						.breadcrumbs__separator(aria-hidden="true")
+							+icon('separator')

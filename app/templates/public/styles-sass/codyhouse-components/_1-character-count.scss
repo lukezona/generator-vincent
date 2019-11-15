@@ -1,0 +1,21 @@
+/* -------------------------------- 
+
+File#: _1_character-count
+Title: Character Count
+Descr: Show the number of remaining characters while typing
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.character-count {}
+
+.character-count__helper {
+  display: none;
+}
+
+.js {
+  .character-count__helper {
+    display: block;
+    text-align: right;
+  }
+}

@@ -1,0 +1,13 @@
+mixin adv-gallery(images, text)
+	//	Advanced Gallery
+			https://codyhouse.co/ds/components/app/advanced-gallery
+
+			Arguments:
+				- images: [] - array of CloudinaryImages
+				- text: string - text of the gallery, will be placed at the end of the gallery
+
+	.adv-gallery.margin-bottom-lg
+		.adv-gallery__grid.adv-gallery__grid--stretch.container.max-width-adaptive-xl
+			each img in images
+				.adv-gallery__img-wrapper: +img(img)
+			.adv-gallery__label: p.text-md!= text

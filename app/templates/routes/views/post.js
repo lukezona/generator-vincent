@@ -1,9 +1,9 @@
-var keystone = require('keystone');
+const vincent = require('vincent');
 
 exports = module.exports = function (req, res) {
-
-	var view = new keystone.View(req, res);
-	var locals = res.locals;
+	
+	const view = new vincent.View(req, res);
+	let locals = res.locals;
 
 	// Set locals
 	locals.section = 'blog';
@@ -16,8 +16,8 @@ exports = module.exports = function (req, res) {
 
 	// Load the current post
 	view.on('init', function (next) {
-
-		var q = keystone.list('Post').model.findOne({
+		
+		const q = vincent.list('Post').model.findOne({
 			state: 'published',
 			slug: locals.filters.post,
 		}).populate('author categories');
@@ -31,8 +31,8 @@ exports = module.exports = function (req, res) {
 
 	// Load other posts
 	view.on('init', function (next) {
-
-		var q = keystone.list('Post').model.find().where('state', 'published').sort('-publishedDate').populate('author').limit(4);
+		
+		const q = vincent.list('Post').model.find().where('state', 'published').sort('-publishedDate').populate('author').limit(4);
 
 		q.exec(function (err, results) {
 			locals.data.posts = results;

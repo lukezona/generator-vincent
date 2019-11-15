@@ -1,0 +1,47 @@
+/* -------------------------------- 
+
+File#: _1_auto-sized-grid
+Title: Auto Sized Grid
+Descr: A grid layout based on CSS Grid where the columns are automatically created according to a min-width value
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+@mixin gridAuto($min-width, $gap: null, $fallback: 3) {
+  @if( $gap == null ) {
+    $gap: var(--space-md);
+  }
+
+  @include gridFallback($gap);
+
+  &::after { // fix floating issues on browsers not supporting CSS Grid
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  > * { // fallback for browsers not supporting CSS Grid 
+    float: left;
+    width: calc(100%/#{$fallback});
+  }
+  
+  @supports(grid-area: auto) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+    grid-gap: $gap;
+
+    > * { //reset fallback style
+      width: auto;
+    }
+  }
+}
+
+.auto-sized-grid {
+  --auto-sized-grid-min-width: 260px;
+  @include gridAuto(var(--auto-sized-grid-min-width));
+
+  img { // this is for demo purpose only
+    display: block;
+    width: 100%;
+  }
+}

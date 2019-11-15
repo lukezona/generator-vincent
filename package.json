@@ -17,16 +17,16 @@
     "site",
     "blog"
   ],
-  "homepage": "https://github.com/keystonejs/generator-keystone",
-  "bugs": "https://github.com/keystonejs/generator-keystone/issues",
+  "homepage": "https://github.com/lukezona/generator-vincent",
+  "bugs": "https://github.com/lukezona/generator-vincent/issues",
   "author": {
-    "name": "Jed Watson",
-    "url": "https://github.com/JedWatson"
+    "name": "Luca Zonarelli",
+    "url": "https://github.com/lukezona"
   },
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/keystonejs/generator-keystone.git"
+    "url": "git://github.com/lukezona/generator-vincent.git"
   },
   "scripts": {
     "lint": "eslint .",

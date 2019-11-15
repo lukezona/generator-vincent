@@ -1,7 +1,8 @@
 include ../mixins/flash-messages
+include ../mixins/image
 
 doctype html
-html
+html.js
 
 	//- HTML HEADER
 	head
@@ -12,9 +13,16 @@ html
 		title= title || '<%= projectName %>'
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
-		//- Customise the stylesheet for your site by editing /public/styles/site.<% if (preprocessor === 'less') { %>less
-		//- All .less files will be automatically compiled and minified in production.<% } else { %>sass<% } %>
-		link(href="/styles/site<% if (preprocessor === 'less') { %>.min<% } %>.css", rel="stylesheet")
+		//- Stylesheet import based on CSS Var support
+		//- Customise the stylesheet for your site by editing /public/styles/site.scss
+		script.
+			if ( 'CSS' in window && CSS.supports( 'color', 'var(--color-var)' ) ) {
+				document.write( '<link rel="stylesheet" href="/styles/site.css">' );
+			} else {
+				document.write( '<link rel="stylesheet" href="/styles/site-fallback.css">' );
+			}
+		noscript
+			link(rel="stylesheet" href="/styles/site-fallback.css")
 
 		//- This file provides the default styling for the KeystoneJS Content Editor
 		if user && user.canAccessKeystone
@@ -37,25 +45,25 @@ html
 	body
 
 		//- HEADER
-		#header: .container
+		header.main-header.js-main-header: .container.max-width-lg
 
-			//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
-			//- ... or completely change this header to suit your design.
+			.main-header__layout
 
-			div(role="navigation").navbar.navbar-default
-				.container-fluid
-					.navbar-header
-						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-							span.sr-only Toggle navigation
-							span.icon-bar
-							span.icon-bar
-							span.icon-bar
-						a.navbar-brand(href='/') <%= _projectName %>
-					.collapse.navbar-collapse
-						ul.nav.navbar-nav.navbar-left
-							each link in navLinks
-								li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
-						ul.nav.navbar-nav.navbar-right
+				.main-header__logo
+					a(href="/")
+						// Logo here
+
+				button.btn.btn--subtle.main-header__nav-trigger.js-main-header__nav-trigger(aria-label='Toggle menu' aria-expanded='false' aria-controls='main-header-nav')
+					i.main-header__nav-trigger-icon(aria-hidden='true')
+					span Menu
+
+				//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
+				nav#main-header-nav.main-header__nav.js-main-header__nav(aria-labelledby='main-header-nav-label' role='navigation')
+					#main-header-nav-label.main-header__nav-label Main Menu
+					ul.main-header__nav-list
+						each link in navLinks
+							li.main-header__nav-item(class=(section === link.key ? 'active' : null)): a.main-header__nav-link(href=link.href)= link.label
+						ul.main-header__nav-account
 							if user
 								if user.canAccessKeystone
 									li: a(href='/keystone') Open Keystone
@@ -82,29 +90,70 @@ html
 
 
 		//- FOOTER
-		.container: #footer
+		footer.main-footer.padding-y-lg
+			.container.max-width-lg
+				.main-footer__content
+					.main-footer__logo
+						a(href="/")
+							// Logo here
 
-			//- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
-			p Powered by <a href="https://keystonejs.com" target="_blank">KeystoneJS</a>.
+					nav.main-footer__nav
+						ul.main-footer__nav-list
+
+							li.main-footer__nav-item
+								h4 Section 1
+								div: a(href="") Link 1
+								div: a(href="") Link 2
+								div: a(href="") Link 3
+								div: a(href="") Link 4
+								div: a(href="") Link 5
+
+							li.main-footer__nav-item
+								h4 Section 2
+								div: a(href="") Link 1
+								div: a(href="") Link 2
+								div: a(href="") Link 3
+								div: a(href="") Link 4
+
+							li.main-footer__nav-item
+								h4 Section 3
+								div: a(href="") Link 1
+								div: a(href="") Link 2
+								div: a(href="") Link 3
+								div: a(href="") Link 4
+								div: a(href="") Link 5
+								div: a(href="") Link 6
+								div: a(href="") Link 7
+
+				.main-footer__colophon
+					.main-footer__colophon-nav
+						span &copy; <%= _projectName %>
+						//- You don't _have_ to include a link saying your site is powered by VincentJS, but we appreciate it!
+						span | Powered by <a href="https://vincentjs.com" target="_blank">VincentJS</a>.
+						a(href="terms-and-conditions") Terms
+						a(href="privacy") Privacy
+						a(href="cookies") Cookies
+
+					.main-footer__socials
+						a(href="")
+							// Icon here
 
 
 		//- JAVASCRIPT
 
-		//- jQuery 1.11.3 is included by default, and required by both Bootstrap
-		//- and the KeystoneJS Content Editor. If you are not targeting IE8,
-		//- you can upgrade to 2.1.4 (also bundled) for better performance.
-		script(src='/js/jquery/jquery-1.11.3.min.js')
-
-		//- Customise which Bootstrap javascript files are served by including
-		//- them specifically here, instead of bootstrap-3.3.5.min.js
-		script(src='/js/bootstrap/bootstrap-3.3.5.min.js')
-
-		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
-		//- which generate links to edit content for users who can access Keystone
+		//- Bootstrap and JQuery dependencies for KeystoneJS Content Editor Interface
 		if user && user.canAccessKeystone
-			script(src='/keystone/js/content/editor.js')
+			script(src='/js/jquery/jquery-1.11.3.min.js')
+			script(src='/js/bootstrap/bootstrap-3.3.5.min.js')
 
 		//- Add scripts that are globally required by your site here.
 
 		//- Include template-specific javascript files by extending the js block
 		block js
+
+
+// initialization
+- blocks = {}
+
+mixin set(key)
+	- blocks[key] = this.block

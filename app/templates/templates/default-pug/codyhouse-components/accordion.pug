@@ -1,0 +1,27 @@
+mixin accordion(panels, multi, iconPlus)
+	//	------------
+			Accordion
+			------------
+
+			Documentation:
+				https://codyhouse.co/ds/components/app/accordion
+
+			Description:
+				Creates an accordion
+
+			Arguments:
+				- panels: [ {title: string, content: string} ] - array of panel objects with a title and a content
+				- multi: boolean - ability to open multiple panels opened at the same time
+				- iconPlus: boolean - change the arrow icon to a plus
+
+	ul.accordion.js-accordion(class= iconPlus ? 'accordion--icon-plus': '' data-animation="on" data-multi-items= multi ? "on" : "off")
+		each panel in panels
+			li.accordion__item.accordion__item--is-open.js-accordion__item
+				button.accordion__header(type="button")
+					span.accordion__header-title!= panel.title
+					em(aria-hidden="true").accordion__header-icon: i
+
+				.accordion__panel.js-accordion__panel
+					.accordion__panel-content
+						.text-component.margin-bottom-md
+							p!= panel.content

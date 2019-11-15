@@ -1,0 +1,51 @@
+/* -------------------------------- 
+
+File#: _3_testimonial-slideshow
+Title: Testimonial Slideshow
+Descr: A Slideshow to display a gallery of testimonials
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.testimonial-slideshow {
+  text-align: center;
+}
+
+.testimonial-slideshow .slideshow__item {
+  height: 320px;
+  background-color: var(--color-contrast-lower);
+
+  @include breakpoint(md) {
+    height: 420px;
+  }
+}
+
+@include breakpoint(md) {
+  .testimonial-slideshow__quote {
+    font-size: var(--text-lg);
+  }
+}
+
+.testimonial-slideshow__img img {
+  display: block;
+  margin: 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--color-bg);
+
+  @include breakpoint(md) {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+.testimonial-slideshow__cite {
+  font-size: var(--text-sm);
+
+  span {
+    display: block;
+    color: var(--color-contrast-medium);
+    margin-top: var(--space-xxxxs);
+  }
+}

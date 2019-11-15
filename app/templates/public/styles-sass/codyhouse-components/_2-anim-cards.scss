@@ -1,0 +1,59 @@
+/* -------------------------------- 
+
+File#: _2_anim-cards
+Title: Animated Cards
+Descr: A collection of cards that slides over time
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+:root {
+  --anim-cards-width: 280px; // single card width
+  --anim-cards-gap: var(--space-md);  // gap
+}
+
+@supports(--css: variables) {
+  :root {
+    @include breakpoint(sm) {
+      --anim-cards-width: 400px;
+    }
+
+    @include breakpoint(md) {
+      --anim-cards-width: 550px;
+    }
+  }
+}
+
+// default style
+.anim-cards {
+  overflow: hidden;
+  margin-top: var(--anim-cards-gap);
+  margin-bottom: var(--anim-cards-gap);
+}
+
+.anim-cards__list {
+  display: flex;
+  overflow: auto;
+}
+
+.anim-cards__item {
+  float: left; // flex fallback
+  width: var(--anim-cards-width);
+  flex-shrink: 0;
+  margin-right: var(--anim-cards-gap);
+}
+
+// js enabled style
+.js {
+  // anim-cards--anim-off class turns off translate animation (added in js if reduced-motion option is on)
+  .anim-cards:not(.anim-cards--anim-off) .anim-cards__list { 
+    overflow: visible;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .anim-cards--reverse:not(.anim-cards--anim-off) .anim-cards__list{
+    flex-direction: row-reverse;
+  }
+}

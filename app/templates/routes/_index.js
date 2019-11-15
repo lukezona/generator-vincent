@@ -18,16 +18,16 @@
  * http://expressjs.com/api.html#app.VERB
  */
 
-<% } %>var keystone = require('keystone');
-var middleware = require('./middleware');
-var importRoutes = keystone.importer(__dirname);
+<% } %>const vincent = require('vincent');
+const middleware = require('./middleware');
+const importRoutes = vincent.importer(__dirname);
 
 // Common Middleware
-keystone.pre('routes', middleware.initLocals);
-keystone.pre('render', middleware.flashMessages);
+vincent.pre('routes', middleware.initLocals);
+vincent.pre('render', middleware.flashMessages);
 
 // Import Route Controllers
-var routes = {
+const routes = {
 	views: importRoutes('./views'),
 };
 
@@ -35,11 +35,9 @@ var routes = {
 exports = module.exports = function (app) {
 	// Views
 	app.get('/', routes.views.index);
-<% if (includeBlog) { %>	app.get('/blog/:category?', routes.views.blog);
 	app.get('/blog/post/:post', routes.views.post);
-<% } %><% if (includeGallery) { %>	app.get('/gallery', routes.views.gallery);
-<% } %><% if (includeEnquiries) { %>	app.all('/contact', routes.views.contact);
-<% } %><% if (includeGuideComments) { %>
+	app.get('/gallery', routes.views.gallery);
+	app.all('/contact', routes.views.contact);<% if (includeGuideComments) { %>
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
 <% } %>

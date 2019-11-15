@@ -1,0 +1,40 @@
+mixin icon(name, size)
+	if !size
+		- size = 16
+
+	case name
+		when 'close'
+			svg.icon(viewBox=`0 0 ${size} ${size}`)
+				title= name
+				g(stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" stroke="currentColor" fill="none" stroke-miterlimit="10")
+					line(x1="19" y1="5" x2="5" y2="19")
+					line(fill="none" x1="19" y1="19" x2="5" y2="5")
+
+		when 'separator'
+			svg.icon(viewBox=`0 0 ${size} ${size}`)
+				g(stroke-width="1" stroke="currentColor")
+					polyline(fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="6.5,3.5 11,8 6.5,12.5 ")
+
+		when 'arrow-up'
+			svg.icon(viewBox=`0 0 ${size} ${size}`)
+				title Go to top of page
+				g(stroke-width="1" stroke="currentColor")
+					polyline(fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="15.5,11.5 8,4 0.5,11.5 ")
+
+		when 'info'
+			svg.icon.margin-right-xxxs(viewBox=`0 0 ${size} ${size}` aria-hidden="true")
+				title= name
+				g
+					path(d="M16,0C7.178,0,0,7.178,0,16s7.178,16,16,16s16-7.178,16-16S24.822,0,16,0z M18,7c1.105,0,2,0.895,2,2 s-0.895,2-2,2s-2-0.895-2-2S16.895,7,18,7z M19.763,24.046C17.944,24.762,17.413,25,16.245,25c-0.954,0-1.696-0.233-2.225-0.698 c-1.045-0.92-0.869-2.248-0.542-3.608l0.984-3.483c0.19-0.717,0.575-2.182,0.036-2.696c-0.539-0.514-1.794-0.189-2.524,0.083 l0.263-1.073c1.054-0.429,2.386-0.954,3.523-0.954c1.71,0,2.961,0.855,2.961,2.469c0,0.151-0.018,0.417-0.053,0.799 c-0.066,0.701-0.086,0.655-1.178,4.521c-0.122,0.425-0.311,1.328-0.311,1.765c0,1.683,1.957,1.267,2.847,0.847L19.763,24.046z")
+
+		when 'success'
+			svg.icon.margin-right-xxxs(viewBox=`0 0 ${size} ${size}` aria-hidden="true")
+				title= name
+				g
+					path(d="M16,0C7.2,0,0,7.2,0,16s7.2,16,16,16s16-7.2,16-16S24.8,0,16,0z M23.7,11.7l-10,10C13.5,21.9,13.3,22,13,22 s-0.5-0.1-0.7-0.3l-4-4c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l3.3,3.3l9.3-9.3c0.4-0.4,1-0.4,1.4,0S24.1,11.3,23.7,11.7z")
+
+		when 'error'
+			svg.icon.margin-right-xxxs(viewBox=`0 0 ${size} ${size}` aria-hidden="true")
+				title= name
+				g
+					path(d="M16,0C7.178,0,0,7.178,0,16s7.178,16,16,16s16-7.178,16-16S24.822,0,16,0z M17.929,7L17,19h-2L14.071,7 H17.929z M16,25c-1.105,0-2-0.895-2-2c0-1.105,0.895-2,2-2c1.105,0,2,0.895,2,2C18,24.105,17.105,25,16,25z")

@@ -1,0 +1,18 @@
+/* -------------------------------- 
+
+File#: _2_features-v3
+Title: Features v3
+Descr: A section containing a list of features
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.features-v3__text {
+  padding-top: var(--space-xxl);
+  padding-bottom: calc(var(--space-xl) * 2);
+  background-color: var(--color-contrast-lower);
+}
+
+.features-v3__cards {
+  margin-top: calc(var(--space-xl) * -1);
+}

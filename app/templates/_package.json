@@ -3,11 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "keystone": "^4.0.0",
+    "vincent": "https://github.com/lukezona/vincent.git",
     "lodash": "^4.13.1",
-    "moment": "^2.24.1",
+    "moment": "^2.24.0",
     "cloudinary": "1.7.0",
-    "consolidate": "0.14.5",
+    "codyhouse-framework": "^2.1.0",
     "pug": "^2.0.0",
     "node-sass": "4.12.0",
     "node-sass-middleware": "0.11.0",
@@ -18,10 +18,24 @@
   "devDependencies": {
     "eslint": "3.15.0",
     "eslint-config-keystone": "3.0.0",
-    "eslint-plugin-react": "^5.1.1"
+    "eslint-plugin-react": "^5.1.1",
+    "autoprefixer": "^9.4.3",
+    "gulp": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sass-glob": "^1.1.0",
+    "gulp-uglify": "^3.0.2",
+    "postcss-calc": "^7.0.1",
+    "postcss-css-variables": "git+https://github.com/CodyHouse/postcss-css-variables"
   },
   "scripts": {
     "lint": "eslint .",
+    "codyhouse": "gulp copy",
+    "scss": "gulp sass",
+    "js": "gulp scripts",
+    "prestart": "gulp copy && gulp sass && gulp scripts",
     "start": "node keystone.js"
   }
 }

@@ -1,0 +1,63 @@
+/* -------------------------------- 
+
+File#: _2_hero-boxed
+Title: Boxed Hero
+Descr: Hero section variation displaying a content background wrapper
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.hero--boxed {
+  .hero__content {
+    background-color: alpha(var(--color-bg), 0.95);
+    padding: var(--space-lg);
+  }
+}
+
+@supports (clip-path: inset(50%)) {
+  .hero--boxed-blur-fx {
+    position: relative;
+  
+    .hero__content {
+      background-color: transparent; // reset
+      overflow: hidden;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  
+      > * {
+        position: relative;
+        z-index: 3;
+      }
+  
+      &::before, &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+  
+      &::before { // blurred bg
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        filter: blur(10px);
+        z-index: 1;
+      }
+  
+      &::after { // overlay layer
+        background-color: alpha(var(--color-bg), 0.75);
+        z-index: 2;
+      }
+    }
+  }
+}
+
+#hero-boxed-1 {
+  background-image: url('../../../../../app/assets/img/hero-boxed-img-1.jpg');
+}
+
+#hero-boxed-2,
+#hero-boxed-2 .hero__content::before {
+  background-image: url('../../../../../app/assets/img/hero-boxed-img-2.jpg');
+}

@@ -1,23 +1,27 @@
 extends ../layouts/default
+include ../codyhouse-components/avd-gallery
+include ../codyhouse-components/cta-banner
 
 block content
-	.container: .jumbotron
-		img(src='/images/logo.svg', width='160')
-		h1 Welcome
-		p This is your new <a href='https://keystonejs.com' target='_blank'>KeystoneJS</a> website.
-		p It includes the latest versions of
-			| <a href='https://getbootstrap.com/' target='_blank'>Bootstrap</a>
-			| and <a href='https://jquery.com/' target='_blank'>jQuery</a>.
-		p Visit the <a href='https://keystonejs.com/getting-started/' target='_blank'>Getting Started</a> guide to learn how to customise it.
-		hr
-		if user && user.canAccessKeystone
-			p
-				a(href='/keystone').btn.btn-lg.btn-primary Open the Admin UI
-		else
-			p We have created a default Admin user for you with the email <strong><%= adminLogin %></strong> and the password <strong><%= adminPassword %></strong>.
-			p
-				a(href='/keystone/signin', style='margin-right: 10px').btn.btn-lg.btn-primary Sign in
-				|  to use the Admin UI.
-		hr
-		p Remember to <a href='https://github.com/keystonejs/keystone' target='_blank'>Star KeystoneJS on GitHub</a> and
-			| <a href='https://twitter.com/keystonejs' target='_blank'>follow @keystonejs</a> on twitter for updates.
+	main#main-content
+		section.hero.padding-y-xxl
+			.container.max-width-adaptive-sm
+				.hero__content
+					.hero__label.margin-bottom-xxs Hi fellow dev
+					.text-component.margin-bottom-sm
+						h1 Welcome
+						p This is your new <a href='https://vincentjs.com' target='_blank'>VincentJS</a> website.
+						p It's based on <a href='https://keystonejs.com/' target='_blank'>KeystoneJS v4</a> and
+							| <a href='https://codyhouse.co/ds/get-started' target='_blank'>CodyHouse Design System</a>.
+						p Visit the <a href='https://vincentjs.com/getting-started/' target='_blank'>Getting Started</a> guide to learn how to customise it.
+
+					.flex.flex-wrap.items-center.flex-gap-sm
+						a(href="https://github.com/lukezona/vincent" target='_blank').btn.btn--primary GitHub
+						a(href="https://vincentjs.com/getting-started/" target='_blank').btn.btn--subtle Documentation
+
+		section#gallery-main
+			+adv-gallery(data.images, 'Lorem ipsum dolor sit amet consectetur adipisicing elit.')
+
+		section#test
+			.container
+				+img(data.images[2], [{width: 50}, {width: 1000}, {width: 2000}], 'test')

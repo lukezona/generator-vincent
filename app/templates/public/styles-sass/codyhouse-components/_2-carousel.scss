@@ -1,0 +1,137 @@
+/* -------------------------------- 
+
+File#: _2_carousel
+Title: Carousel
+Descr: Display and cycle through a collection of items
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+:root {
+  --carousel-grid-gap: var(--space-xs);
+  --carousel-item-auto-size: 260px; // min-width value -> used in JS to auto update the carousel items width
+}
+
+.carousel {
+  position: relative;
+}
+
+@supports (display: flex) {
+  .carousel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .carousel__controls {
+    order: 1;
+  }
+
+  .carousel__wrapper {
+    order: 2;
+  }
+}
+
+.carousel__wrapper {
+  overflow: hidden;
+  padding: 0;
+}
+
+.carousel__list {
+  display: flex;
+  flex-wrap: nowrap;
+  will-change: transform;
+}
+
+.carousel__item {
+  display: inline-block; // flexbox fallback
+  float: left; // flexbox fallback
+  flex-shrink: 0;
+  width: var(--carousel-item-auto-size); 
+  margin-right: var(--carousel-grid-gap);
+  margin-bottom: var(--carousel-grid-gap);
+}
+
+.carousel__control {
+  display: none;
+}
+
+.js {
+  .carousel__list--animating {
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .carousel__item { // hide items while the carousel is initialized in JS
+    opacity: 0;
+    margin-bottom: 0;
+  }
+
+  .carousel--loaded .carousel__item { // reveal items
+    opacity: 1;
+  }
+
+  .carousel:not(.carousel--is-dragging) .carousel__list:not(.carousel__list--animating) .carousel__item[tabindex="-1"] > * {
+    visibility: hidden; // hide content of off-canvas items so that they are not focusable 
+  }
+
+  .carousel[data-drag="on"] .carousel__item { // if drag = enabled
+    user-select: none;
+
+    img {
+      pointer-events: none;
+    }
+  }
+
+  .carousel__controls {
+    margin: var(--space-xxs) 0;
+
+    ul {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    li:first-child {
+      display: inline-block; // flex fallback
+      margin-right: 2px; // gap between nav controls
+    }
+  }
+
+  .carousel__control {
+    display: inline-block; // flex fallback
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    background-color: alpha(var(--color-contrast-high), 0.95);
+    z-index: 1;
+    transition: transform .2s;
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:hover {
+      background-color: var(--color-contrast-high);
+    }
+
+    .icon {
+      display: block;
+      width: 16px;
+      height: 16px;
+      color: var(--color-bg);
+    }
+  }
+}
+
+html:not(.js) .carousel__list {
+  overflow: auto;
+}
+
+.carousel__demo-content { // demo only -> replace with your content
+  height: 260px;
+  background: var(--color-contrast-lower);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--text-md);
+}

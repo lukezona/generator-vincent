@@ -1,0 +1,19 @@
+/* -------------------------------- 
+
+File#: _2_feature-v5
+Title: Feature v5
+Descr: Content group containing text components and a media element
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.feature--v5 {
+  .feature__item:first-child {
+    background-color: var(--color-contrast-lower);
+    padding-bottom: calc(var(--space-lg) + var(--space-xxl)); // if you replace --space-xxl with a another space variable, make sure to update margin-top of :last-child as well
+  }
+
+  .feature__item:last-child {
+    margin-top: calc(var(--space-xxl) * -1);
+  }
+}

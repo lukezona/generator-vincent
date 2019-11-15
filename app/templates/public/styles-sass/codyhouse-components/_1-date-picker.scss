@@ -1,0 +1,233 @@
+/* -------------------------------- 
+
+File#: _1_date-picker
+Title: Date Picker
+Descr: Input element used to select a date
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+:root {
+  --date-picker-trigger-width: 2.5em; // calendar button width
+  --date-picker-icon-size: 1.2em; // calendar icon size
+}
+
+.date-input, .date-input__wrapper {
+  position: relative;
+}
+
+.date-input__trigger { // calendar button
+  @include reset;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: var(--date-picker-trigger-width);
+  display: none; // hide button if JS is not enabled
+
+  .icon {
+    width: var(--date-picker-icon-size);
+    height: var(--date-picker-icon-size);
+  }
+
+  &:focus {
+    color: var(--color-primary); // icon color
+  }
+}
+
+.js { // show calendar button if JS is enabled
+  .date-input__trigger {
+    display: block; // flex fallback
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .date-input__text {
+    padding-right: calc(var(--date-picker-trigger-width) + var(--space-xxxs));
+  }
+}
+
+.date-input--hide-calendar .date-input__trigger { // hide calendar trigger when flexbox is not supported
+  display: none;
+}
+
+.date-picker {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: calc(var(--space-sm) + 100%);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-md);
+  z-index: var(--zindex-popover);
+  user-select: none;
+
+  // reset spacing and text sizes
+  @include spaceUnit(1rem);
+  font-size: 1rem;
+
+  transform: translateY(-4px);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s .2s, opacity .2s, transform .2s ease-out;
+}
+
+.date-picker--is-visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .2s, transform .2s ease-out;
+}
+
+.date-picker__header {
+  background-color: var(--color-contrast-lower);
+  padding-top: var(--space-xxs);
+}
+
+// month navigation
+.date-picker__month { // month wrapper -> name + nav
+  position: relative;
+  padding: 0 var(--space-xxs);
+}
+
+.date-picker__month-label { // month name
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: var(--color-contrast-higher);
+  font-size: 1.1em;
+}
+
+// CSS grid layout + fallback (month nav/week/dates)
+.date-picker__month-nav,
+.date-picker__week,
+.date-picker__dates {
+  @include gridFallback(0);
+  min-width: 14em;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(2em, 2.5em)); // set same grid for days/dates/month nav
+  grid-gap: var(--space-xxxs);
+
+  li {
+    @include column(14.28%);
+  }
+}
+
+.date-picker__month-nav {
+  justify-content: space-between; // grid fallback
+
+  li {
+    position: relative;
+  }
+
+  li:last-child {
+    grid-column: 7 / 8;
+  }
+}
+
+.date-picker__month-nav-btn {
+  @include reset;
+  width: 100%;
+  height: 32px;
+  border-radius: var(--radius-md);
+  transition: .2s;
+  color: var(--color-contrast-medium); // icon color
+
+  .icon {
+    display: block;
+    margin: auto;
+  }
+
+  &:hover {
+    background-color: var(--color-contrast-low);
+    color: var(--color-contrast-high);
+  }
+
+  &:focus {
+    outline: none;
+    background-color: var(--color-contrast-high);
+    color: var(--color-bg);
+  }
+
+  &:active {
+    background-color: alpha(var(--color-contrast-high), 0.9);
+  }
+}
+
+.date-picker__week { // days of the week list
+  padding: 0 var(--space-xxs);
+}
+
+.date-picker__day { // day of the week
+  width: 100%;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875em;
+  color: var(--color-contrast-medium);
+}
+
+.date-picker__dates { // list of dates
+  padding: var(--space-xxs);
+}
+
+.date-picker__date { // date button
+  @include reset;
+  width: 100%;
+  height: 32px;
+  text-align: center;
+  border-radius: var(--radius-md);
+  transition: .2s;
+
+  &:hover {
+    background-color: var(--color-contrast-lower);
+  }
+
+  &[tabindex="0"] {
+    color: var(--color-primary);
+  }
+
+  &.date-picker__date--selected {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  &:focus {
+    outline: none;
+    background-color: alpha(var(--color-primary), 0.2);
+    color: var(--color-contrast-higher);
+  }
+}
+
+@supports (grid-area: auto) {
+  .date-picker__week li,
+  .date-picker__dates li,
+  .date-picker__month-nav li:last-child {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+  }
+
+  .date-picker__day,
+  .date-picker__date,
+  .date-picker__month-nav-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+}
+
+.date-picker__date::-moz-focus-inner { // remove Firefox dotted-outline focus effect
+  border: none;
+}

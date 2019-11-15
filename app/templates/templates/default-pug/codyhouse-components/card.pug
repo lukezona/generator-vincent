@@ -1,0 +1,43 @@
+mixin card(image, title, content, isLink, ctaLink, ctaLabel)
+	//	----
+			Card
+			----
+
+			Documentation:
+				https://codyhouse.co/ds/components/app/card
+
+			Description:
+				Creates a card with an image and it's description,
+				it can be a link or can have a call to action button
+
+			Arguments:
+				- image: CloudinaryImage
+				- title: string
+				- content: string
+				- isLink: boolean - define if the card is a link or has a button for the call to action
+				- ctaLink: string - link of the call to action
+				- ctaLabel: string - label of the call to action
+
+	if isLink
+		.card.card--is-link
+			a(href=ctaLink aria-label=ctaLabel).card__link
+				figure.card__img
+					+img(image)
+
+				.card__content
+					.text-component
+						h4!= title
+						p.text-sm.color-contrast-medium!= content
+	else
+		.card
+			figure.card__img
+				+img(image)
+
+			.card__content
+				.text-component
+					h4!= title
+					p.text-sm.color-contrast-medium!= content
+
+				if ctaLink && ctaLabel
+					.margin-top-sm
+						a(href=ctaLink).btn.btn--subtle.btn--sm!= ctaLabel

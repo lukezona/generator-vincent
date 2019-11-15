@@ -1,0 +1,48 @@
+mixin img(image, ...options)
+	//	-----------------------
+			SEO Optimized image tag
+			-----------------------
+
+			Description:
+				Creates an img tag with default alt text and srcset optimized for SEO
+
+			Arguments:
+				- image: CloudinaryImage
+				- options: ...[] - (OPTIONAL) object containing the class as string and/or the array containing the various srcset widths/heights
+					- classNames: string
+					- srcset: []
+
+			Examples:
+				+img(data.images[0])
+				+img(data.images[1], 'test')
+				+img(data.images[2], [{width: 600}, {width: 1000}, {width: 1500}, {width: 2000}])
+				+img(data.images[3], [{width: 700}, {width: 1000}, {width: 1500}, {width: 2000}], 'test3')
+				+img(data.images[4], [{width: 700, height: 250}, {width: 1000, height: 400}, {width: 1500, height: 500}, {width: 2000, height: 1000}], 'test4')
+
+	- var classNames = ''
+	- var sets = ''
+	- var srcset = [{width: 500}, {width: 1000}, {width: 1500}, {width: 2000}];
+
+	// Finding out which arguments are passed
+	if options.length > 0
+		if typeof options[0] === 'string'
+			- classNames = options[0]
+		else
+			- srcset = options [0]
+	else if options.length > 1
+		if typeof options[0] === 'string'
+			- classNames = options[0]
+			- srcset = options [1]
+		else
+			- srcset = options [0]
+			- classNames = options[1]
+
+	each s, i in srcset
+		- sets += `${image.image.secure_url.replace('/upload/', `/upload/c_scale,${s.height > 0 ? `h_${s.height}` : `w_${s.width}`}/q_auto/f_auto/`)} ${s.width}w`
+		if i < srcset.length - 1
+			- sets += ', '
+
+	img(alt_text=image.i18n.alt_text
+			src=image.image.secure_url
+			srcset=sets
+			class=classNames)

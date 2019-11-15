@@ -1,0 +1,43 @@
+mixin button-group(btns, style)
+	//	------------
+			Button Group
+			------------
+
+			Documentation:
+				https://codyhouse.co/ds/components/app/button-group
+
+			Description:
+				Creates a button group with different styles like checkbox and radio
+
+			Arguments:
+				- btns: [{ label: string, id: string, icon: string }] - array of objects with label (REQUIRED) and optional id and icon name
+				- style: string
+
+	.btns(class=(style ? (style.contains('checkbox') ? `btns--checkbox` : `btns--${style}`) : null))
+		each btn, i in btns
+			case style
+				when 'checkbox'
+					div
+						input(type="checkbox" id=(btn.id || `btn-${i}`))
+						label.btns__btn(for=btn.id || `btn-${i}`))!= btn.label
+
+				when 'checkbox-icon'
+					div
+						input(type="checkbox" id=(btn.id || `btn-${i}`))
+						label.btns__btn(for=btn.id || `btn-${i}`))
+							+icon(btn.icon, 16)
+
+				when 'checkbox-icon-text'
+					div
+						input(type="checkbox" id=(btn.id || `btn-${i}`))
+						label.btns__btn(for=btn.id || `btn-${i}`))
+							+icon(btn.icon, 16)
+							span!= btn.label
+
+				when 'radio'
+					div
+						input(type="radio" id=(btn.id || `btn-${i}`) name=(btn.name || `radioBtn-${i}`) checked=(btn.checked || null))
+						label.btns__btn(for=btn.id || `btn-${i}`))!= btn.label
+
+				default
+					button.btns__btn!= btn.label

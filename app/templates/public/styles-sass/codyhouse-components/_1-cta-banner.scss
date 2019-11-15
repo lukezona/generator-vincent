@@ -1,0 +1,26 @@
+/* -------------------------------- 
+
+File#: _1_cta-banner
+Title: Call to Action Banner
+Descr: A banner containing brief info about a subject, plus links/buttons
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.cta-banner {
+  background-color: var(--color-bg);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.cta-banner__item {}
+
+.cta-banner__item--img {
+  figure, img {
+    width: 100%;
+  }
+
+  img {
+    display: block;
+  }
+}

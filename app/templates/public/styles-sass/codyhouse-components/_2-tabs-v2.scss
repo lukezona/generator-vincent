@@ -1,0 +1,22 @@
+/* -------------------------------- 
+
+File#: _2_tabs-v2
+Title: Tabs v2
+Descr: Accessible tabbed content v2
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.tabs-v2__panel {
+  padding: var(--space-md) 0;
+}
+
+.js {
+  .tabs-v2__panel {
+    display: none;
+  }
+
+  .tabs-v2__panel--selected {
+    display: block;
+  }
+}

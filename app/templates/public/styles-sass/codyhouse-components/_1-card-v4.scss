@@ -1,0 +1,24 @@
+/* -------------------------------- 
+
+File#: _1_card-v4
+Title: Card v4
+Descr: Container of information used as teasers for further content, often displayed in a gallery of related items
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.card-v4 {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-contrast-lower);
+  border-radius: var(--radius-md);
+}
+
+.card-v4__img {
+  margin-top: auto;
+
+  img {
+    display: block;
+    width: 100%;
+  }
+}

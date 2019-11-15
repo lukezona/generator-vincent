@@ -1,0 +1,26 @@
+/* -------------------------------- 
+
+File#: _1_full-width-blockquote
+Title: Full-width Blockquote
+Descr: Full-width long quotation
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.fw-blockquote {
+  background-color: var(--color-contrast-lower);
+  text-align: center;
+}
+
+.fw-blockquote__footer {
+  &::before { // dash
+    content: '\2014';
+    margin-right: var(--space-xxxs);
+  }
+}
+
+.fw-blockquote__bg-icon {
+  width: 4em;
+  height: 4em;
+  color: var(--color-contrast-low); // icon color
+}

@@ -1,12 +1,12 @@
-var keystone = require('keystone');
-var Types = keystone.Field.Types;
+var vincent = require('vincent');
+var Types = vincent.Field.Types;
 
 /**
  * Enquiry Model
  * =============
  */
 
-var Enquiry = new keystone.List('Enquiry', {
+var Enquiry = new vincent.List('Enquiry', {
 	nocreate: true,
 	noedit: true,
 });
@@ -21,7 +21,6 @@ Enquiry.add({
 		{ value: 'other', label: 'Something else...' },
 	] },
 	message: { type: Types.Markdown, required: true },
-	createdAt: { type: Date, default: Date.now },
 });
 <% if (includeEmail) { %>
 Enquiry.schema.pre('save', function (next) {
@@ -50,11 +49,11 @@ Enquiry.schema.methods.sendNotificationEmail = function (callback) {
 	}
 
 	var enquiry = this;
-	var brand = keystone.get('brand');
+	var brand = vincent.get('brand');
 
-	keystone.list('<%= userModel %>').model.find().where('isAdmin', true).exec(function (err, admins) {
+	vincent.list('<%= userModel %>').model.find().where('isAdmin', true).exec(function (err, admins) {
 		if (err) return callback(err);
-		new keystone.Email({
+		new vincent.Email({
 			templateName: 'enquiry-notification',
 			transport: 'mailgun',
 		}).send({

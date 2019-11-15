@@ -1,0 +1,66 @@
+/* -------------------------------- 
+
+File#: _1_pre-header
+Title: Pre-header 
+Descr: Pre-header (top) banner
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.pre-header {
+  display: block;
+  background-color: var(--color-primary);
+  padding: var(--space-xs) 0;
+  color: var(--color-white);
+  @include fontSmooth;
+}
+
+.pre-header--is-hidden {
+  display: none;
+}
+
+.pre-header__container {
+  position: relative;
+}
+
+.pre-header__msg {
+  font-size: var(--text-sm);
+  padding: 0 var(--space-lg) 0 0;
+  line-height: 1.4;
+
+  a {
+    color: inherit;
+  }
+}
+
+.pre-header__close-btn {
+  position: absolute;
+  right: 0;
+  top: calc(50% - 0.5em);
+
+  .icon {
+    display: block;
+  }
+}
+
+// --text-center
+@include breakpoint(md) {
+  .pre-header--text-center {
+    text-align: center;
+    
+    .pre-header__msg {
+      padding: 0 var(--space-lg);
+    }
+  }
+}
+
+// --link
+a.pre-header {
+  text-decoration: none;
+  transition: background-color .2s;
+
+  &:hover {
+    text-decoration: underline;
+    background-color: var(--color-primary-dark);
+  }
+}

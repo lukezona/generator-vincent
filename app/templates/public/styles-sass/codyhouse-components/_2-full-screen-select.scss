@@ -1,0 +1,68 @@
+/* -------------------------------- 
+
+File#: _2_full-screen-select
+Title: Full Screen Select
+Descr: A full-screen window w/ a list of options
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.modal--select {
+  background-color: alpha(var(--color-bg), 0.95);
+  overflow: auto;
+
+  .modal__close-btn {
+    background-color: var(--color-contrast-lower);
+
+    .icon {
+      color: var(--color-contrast-high);
+    }
+
+    &:hover {
+      background-color: var(--color-contrast-low);
+    }
+  }
+}
+
+.full-screen-select {
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.full-screen-select__list {
+  li {
+    margin-bottom: var(--space-xxxs);
+  }
+}
+
+.full-screen-select__option {
+  display: block;
+  font-size: var(--text-lg);
+  color: var(--color-contrast-high);
+  padding: var(--space-xxxs) var(--space-xs);
+  border-radius: var(--radius-md);
+
+  &:hover {
+    background-color: var(--color-contrast-lower);
+  }
+}
+ 
+.full-screen-select__option--selected {
+  color: var(--color-primary);
+  background-color: var(--color-contrast-lower);
+}
+
+// if animation = enabled
+.modal.modal--select[data-animation="on"] {
+  .full-screen-select {
+    will-change: transform;
+    transition: transform .3s var(--ease-out);
+    transform: translateY(10%);
+  }
+
+  &.modal--is-visible .full-screen-select {
+    transform: translateY(0);
+  }
+}

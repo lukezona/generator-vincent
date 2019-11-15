@@ -1,0 +1,16 @@
+mixin back-to-top(href)
+	//	------------
+			Back to top
+			------------
+
+			Documentation:
+				https://codyhouse.co/ds/components/app/back-to-top
+
+			Description:
+				Creates a button that brings to the top of the page
+
+			Arguments:
+				- href: string - (OPTIONAL) a custom href instead of the default '#'
+
+	a.back-to-top.js-back-to-top(href=(href || '#'), data-offset="100", data-duration="300")
+		+icon('arrow-up', 16)

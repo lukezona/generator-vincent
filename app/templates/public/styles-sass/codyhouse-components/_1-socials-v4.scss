@@ -1,0 +1,86 @@
+/* -------------------------------- 
+
+File#: _1_socials-v4
+Title: Socials v4
+Descr: Section with newsletter form and links to social media accounts
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.socials-v4 {}
+
+.socials-v4__grid-item {
+  &:first-of-type {
+    margin-bottom: var(--space-lg);
+  }
+}
+
+.socials-v4__title {
+  @include lhCrop(var(--heading-line-height));
+}
+
+.socials-v4__btns {
+  justify-content: center;
+}
+
+.socials-v4__btn {
+  display: inline-block;
+  padding: var(--space-sm);
+  background: var(--color-contrast-lower);
+  border-radius: 50%;
+  transition: .2s;
+
+  .icon {
+    display: block;
+    color: var(--color-contrast-high);
+    transition: color .2s;
+  }
+
+  &:hover {
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-sm);
+
+    .icon {
+      color: var(--color-primary);
+    }
+  }
+}
+
+@include breakpoint(md) {
+  @supports (grid-area: auto) {
+    .socials-v4__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: var(--space-lg);
+    }
+
+    .socials-v4__grid-item {
+      min-width: 0;
+
+      &:first-of-type {
+        margin-bottom: 0; // reset
+      }
+    }
+
+    .socials-v4__form {
+      max-width: 480px;
+      margin-left: auto;
+
+      .form-control {
+        flex-grow: 1;
+      }
+    }
+
+    .socials-v4__btns {
+      justify-content: flex-end;
+    }
+  }
+}
+
+@include breakpoint(xl) {
+  @supports (grid-area: auto) {
+    .socials-v4__grid {
+      grid-gap: var(--space-xl);
+    }
+  }
+}

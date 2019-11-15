@@ -1,0 +1,32 @@
+//	-----
+		Alert
+		-----
+
+		Documentation:
+			https://codyhouse.co/ds/components/app/alert
+
+		Description:
+			Creates an alert banner, customizable with different styles
+
+		Arguments:
+			- message: string
+			- style: string
+
+mixin alert(message, style)
+	- var title = 'Info'
+	case style
+		when 'warning'
+			- title = 'Warning: '
+		when 'error'
+			- title = 'Error: '
+		when 'success'
+			- title = 'Success: '
+
+	.alert.alert--is-visible.js-alert(role="alert" class=(style ? `alert--${style}` : ''))
+		.flex.items-center.justify-between
+			.flex.items-center
+				+icon(style, 32)
+				p!= `<strong>${title}</strong> ${message}`
+
+			.reset.alert__close-btn.js-alert__close-btn
+				+icon('close', 24)

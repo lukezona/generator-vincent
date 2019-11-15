@@ -1,0 +1,26 @@
+/* -------------------------------- 
+
+File#: _2_team
+Title: Team
+Descr: A gallery of team members
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.team__gallery {
+  > * {
+    margin-bottom: var(--space-md);
+  }
+
+  @include breakpoint(md) {
+    @supports (grid-area: auto) {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: var(--space-sm);
+
+      > * {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

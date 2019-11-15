@@ -1,0 +1,73 @@
+/* -------------------------------- 
+
+File#: _3_hero-video-bg
+Title: Hero Background Video
+Descr: Hero section variation w/ background video
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.hero--video-bg {
+  position: relative;
+
+  .hero__content { // make sure content is above video
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.hero__video-bg { // video container
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  z-index: 1;
+
+  video {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    min-height: 100%;
+    min-width: 100%;
+    height: auto;
+    width: auto;
+    max-width: none;
+
+    @supports(object-fit: cover) {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+
+    @supports (object-fit: cover) and (-ms-ime-align:auto) { 
+      // fix issue on Edge - object-fit not working for video elements
+      height: auto;
+      width: auto;
+    }
+  }
+}
+
+.hero__play-btn {
+  background-color: alpha(var(--color-contrast-higher), 0.85);
+  border-radius: 50%;
+  padding: var(--space-md);
+  transition: background-color .3s;
+
+  .icon {
+    color: var(--color-bg);
+    font-size: 1.25em; // icon size
+    display: block;
+    transition: transform .3s;
+  }
+
+  &:hover {
+    background-color: alpha(var(--color-contrast-higher), 0.95);
+
+    .icon {
+      transform: scale(1.2);
+    }
+  }
+}

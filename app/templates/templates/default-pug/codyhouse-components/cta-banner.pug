@@ -1,0 +1,71 @@
+mixin cta-banner(title, content, image, ...options)
+	//-	---------------------
+			Call to action banner
+			---------------------
+
+			Documentation:
+				https://codyhouse.co/ds/components/app/call-to-action-banner
+
+			Description:
+				Creates a banner with a call to action
+
+			Styles:
+				- default
+				- img-no-padding
+				- text-center
+
+			Arguments:
+				- title: string
+				- content: string
+				- image: {}
+				- isLink: boolean - define if the card is a link or has a button for the call to action
+				- options: ...[] -
+					- ctaLink: string - (OPTIONAL) link of the call to action
+					- ctaLabel: string - (OPTIONAL) label of the call to action
+					- style: string - (OPTIONAL) a variation from the default style, if used with ctaLink MUST be in last position
+
+	- var style = 'default'
+	- var ctaLink
+	- var ctaLabel = 'Clicca qui' // TODO: Internationalize this default setting
+
+	if options.length > 0
+		- ctaLink = options[0]
+		- ctaLabel = options[1]
+	if options.length > 2
+		- style = options[2]
+
+	.cta-banner(class=`${style === 'default' ? 'padding-component' : ''}`)
+
+		if style === 'img-no-padding'
+			.grid
+				.padding-component.flex.flex-center(class="col-6@md")
+					.cta-banner__item.padding-left-md(class="has-padding@lg")
+						.text-component.text-center(class="text-left@md")
+							h2!= title
+							p!= content
+
+						if ctaLink && ctaLabel
+							.margin-top-sm
+								.flex.flex-wrap.flex-gap-sm.flex-center(class="justify-start@md")
+									a(href=ctaLink).btn.btn--primary!= ctaLabel
+
+				.cta-banner__item.cta-banner__item--img
+					figure
+						+img(image)
+		else
+			.grid.grid-gap-md.items-center
+				div(class="col-6@md")
+					.cta-banner__item(class=`has-padding@lg ${style === 'default' ? 'padding-left-md' : ''}`)
+						.text-component(class=`${style === 'text-center' ? 'text-center' : ''}`)
+							h2!= title
+							p!= content
+
+						if ctaLink && ctaLabel
+							.margin-top-sm
+								.flex.flex-wrap.flex-gap-sm(class=`${style === 'text-center' ? 'text-center' : 'items-center'}`)
+									a(href=ctaLink).btn.btn--primary!= ctaLabel
+
+				div(class="col-6@md")
+					.cta-banner__item.cta-banner__item--img
+						figure
+							+img(image)
